@@ -1,44 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import ufoImage from './ovni.png';
 import xFilesTheme from './xfiles-theme.mp3';
 
 function App() {
+  const [activeSection, setActiveSection] = useState('home');
+
   useEffect(() => {
     const audio = new Audio(xFilesTheme);
-
     audio.play().catch(error => {
       console.error("Error al reproducir el audio automáticamente:", error);
     });
-
-    // Si quieres asegurarte de que el audio se reproduce al cargar la página
-    // Puedes incluir un botón para que el usuario inicie el audio manualmente
-    const handleAudioPlay = () => {
-      audio.play().catch(error => {
-        console.error("Error al reproducir el audio manualmente:", error);
-      });
-    };
-
-    // Agregar un listener para asegurarse de que el audio se reproduce si el usuario interactúa
-    document.addEventListener('click', handleAudioPlay);
-
-    return () => {
-      document.removeEventListener('click', handleAudioPlay);
-    };
   }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={ufoImage} className="App-logo" alt="ufo" />
-        <h1 className="App-title">Welcome to the UFO Experience</h1>
-        <p className="App-description">
-          Explore the mysteries of the universe with our amazing app!
-        </p>
-        <button className="App-button" onClick={() => alert("You are not alone!")}>
-          Contact the Aliens
-        </button>
-      </header>
+      <div className="sidebar">
+        <div className="logo">
+          <img src={ufoImage} alt="UFO" className="ufo-image" />
+          <h2>UFO Experience</h2>
+        </div>
+        <nav className="nav">
+          <ul>
+            <li onClick={() => setActiveSection('home')}>Home</li>
+            <li onClick={() => setActiveSection('explore')}>Explore</li>
+            <li onClick={() => setActiveSection('contact')}>Contact</li>
+          </ul>
+        </nav>
+      </div>
+      <div className="content">
+        {activeSection === 'home' && (
+          <section>
+            <h1>Welcome to the UFO Experience</h1>
+            <p>Explore the mysteries of the universe with our amazing app!</p>
+          </section>
+        )}
+        {activeSection === 'explore' && (
+          <section>
+            <h1>Explore the Unknown</h1>
+            <p>Discover sightings, reports, and evidence of extraterrestrial life.</p>
+          </section>
+        )}
+        {activeSection === 'contact' && (
+          <section>
+            <h1>Contact the Aliens</h1>
+            <p>Want to share your own UFO experience? Get in touch!</p>
+            <button onClick={() => alert("You are not alone!")}>
+              Send a Message
+            </button>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
