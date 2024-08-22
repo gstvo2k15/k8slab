@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ovni-deployment
+  labels:
+    app: ovni
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ovni
+  template:
+    metadata:
+      labels:
+        app: ovni
+    spec:
+      containers:
+      - name: ovni-app
+        image: gstvo2k15/ovni-app:latest
+        ports:
+        - containerPort: 80
+
