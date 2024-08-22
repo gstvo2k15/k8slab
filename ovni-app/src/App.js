@@ -6,11 +6,15 @@ import xFilesTheme from './xfiles-theme.mp3';
 function App() {
   const [activeSection, setActiveSection] = useState('home');
 
-  useEffect(() => {
+  const playAudio = () => {
     const audio = new Audio(xFilesTheme);
     audio.play().catch(error => {
-      console.error("Error al reproducir el audio automáticamente:", error);
+      console.error("Error al reproducir el audio:", error);
     });
+  };
+
+  useEffect(() => {
+    playAudio(); // Intenta reproducir al cargar la página
   }, []);
 
   return (
@@ -33,6 +37,7 @@ function App() {
           <section>
             <h1>Welcome to the UFO Experience</h1>
             <p>Explore the mysteries of the universe with our amazing app!</p>
+            <button onClick={playAudio}>Play Theme</button>
           </section>
         )}
         {activeSection === 'explore' && (
