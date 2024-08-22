@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: ovni-app
-        image: gstvo2k15/ovni-app:latest
+        image: gstvo2k15/ovni-app:web2
         ports:
         - containerPort: 80
-
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
