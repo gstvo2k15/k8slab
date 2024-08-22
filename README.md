@@ -1,5 +1,116 @@
 ### Basic nginx web with react backend
 
+1.0 Crear servicio nginx en k8s
+
+`kubectl create secret generic my-secret --from-literal=password=myP@ssw0rd` <br>
+secret/my-secret created
+
+[root@k8snode01 ~]#
+`kubectl get secret my-secret`
+
+```
+NAME        TYPE     DATA   AGE
+my-secret   Opaque   1      97s
+```
+
+## Obtener el valor decodificado del secreto:
+
+`kubectl get secret my-secret -o jsonpath="{.data.password}" | base64 --decode`
+myP@ssw0rd[
+
+## Ejemplo de cómo usar el secreto en un pod:
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    env:
+    - name: SECRET_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: my-secret
+          key: password
+```
+
+```
+cat <<EOF> nginx-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30007
+  type: NodePort
+EOF
+```
+
+`kubectl apply -f nginx-service.yaml`<br>
+service/nginx-service created
+
+`kubectl get svc nginx-service`
+
+```
+NAME            TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+nginx-service   NodePort   10.102.45.106   <none>        80:30007/TCP   34s
+```
+
+```
+cat <<EOF> nginx-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: SECRET_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: my-secret
+              key: password
+EOF
+```
+
+`kubectl apply -f nginx-deployment.yaml`<br>
+deployment.apps/nginx-deployment created
+
+`kubectl get pods -l app=nginx`
+
+```
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-66597ff946-g65zv   1/1     Running   0          78s
+nginx-deployment-66597ff946-mff9v   1/1     Running   0          78s
+nginx-deployment-66597ff946-q2hq4   1/1     Running   0          78s
+```
+
+`http://192.168.1.33:30007`
+
 1.1 Crear la Aplicación React
 
 En tu entorno de desarrollo local:
