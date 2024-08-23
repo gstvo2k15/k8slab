@@ -283,7 +283,7 @@ Ahora, puedes acceder a tu aplicación OVNI desde cualquier navegador utilizando
 
 `http://<node-ip>:30007`
 
-### 3.4 Actualizaciones
+### 3.4 Actualizaciones de web
 
 ```
 docker build -t gstvo2k15/ovni-app:websound .
