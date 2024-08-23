@@ -29,7 +29,7 @@ html,
 }
 
 .sidebar .logo img {
-  width: 150px; /* Aumentar el tamaño de la imagen */
+  width: 250px; /* Aumentar el tamaño de la imagen */
   margin-bottom: 10px;
 }
 
@@ -80,7 +80,7 @@ section p {
 
 .garden-image {
   max-width: 100%;
-  height: auto;
+  height: 350;
   margin-top: 20px;
 }
 
