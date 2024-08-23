@@ -292,6 +292,6 @@ npm run build
 docker build -t gstvo2k15/ovni-app:background .
 docker push gstvo2k15/ovni-app:background
 
-kubectl set image deployment/ovni-deployment ovni-app=gstvo2k15/ovni-app:web3b
+kubectl set image deployment/ovni-deployment ovni-app=gstvo2k15/ovni-app:background
 kubectl rollout status deployment/ovni-deployment
 ```
