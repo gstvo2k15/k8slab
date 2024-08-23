@@ -13,37 +13,6 @@ html,
 .App {
   display: flex;
   height: 100%;
-  position: relative;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.85);
-  color: #0f0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  cursor: pointer;
-}
-
-.overlay h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  text-shadow: 0px 0px 10px #00ff00;
-}
-
-.overlay p {
-  font-size: 1.2em;
-}
-
-.main-content.blurred {
-  filter: blur(5px);
 }
 
 .sidebar {
@@ -62,19 +31,6 @@ html,
 .sidebar .logo img {
   width: 80px;
   margin-bottom: 10px;
-  animation: pulse-shadow 2s infinite ease-in-out; /* Sombra pulsante */
-}
-
-@keyframes pulse-shadow {
-  0% {
-    box-shadow: 0px 0px 10px #00ff00;
-  }
-  50% {
-    box-shadow: 0px 0px 20px #00ff00;
-  }
-  100% {
-    box-shadow: 0px 0px 10px #00ff00;
-  }
 }
 
 .sidebar .logo h2 {
@@ -139,6 +95,7 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 button:hover {

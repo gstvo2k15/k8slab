@@ -1,15 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import ufoImage from "./ovni.png";
-import gardenImage from "./garden.jpg"; // Importa la nueva imagen
+import gardenImage from "./garden.png";
+import xFilesTheme from "./xfiles-theme.mp3";
 
 function App() {
-  useEffect(() => {
-    const audio = new Audio("xFilesTheme");
-    audio.play().catch((error) => {
-      console.error("Error al reproducir el audio automáticamente:", error);
-    });
-  }, []);
+  const [audioPlayed, setAudioPlayed] = useState(false);
+
+  const playAudio = () => {
+    const audio = new Audio(xFilesTheme);
+    audio
+      .play()
+      .then(() => {
+        setAudioPlayed(true);
+      })
+      .catch((error) => {
+        console.error("Error al reproducir el audio:", error);
+      });
+  };
 
   return (
     <div className="App">
@@ -30,8 +38,8 @@ function App() {
         <section>
           <h1>Welcome to the UFO Experience</h1>
           <p>Explore the mysteries of the universe with our amazing app!</p>
-          <img src={gardenImage} alt="Garden" className="garden-image" />{" "}
-          {/* Agrega la imagen central */}
+          <img src={gardenImage} alt="Garden" className="garden-image" />
+          {!audioPlayed && <button onClick={playAudio}>Play Theme</button>}
         </section>
       </div>
     </div>
