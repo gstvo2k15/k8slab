@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+  evaluation_interval: 10s
+scrape_configs:
+  - job_name: node-exporters
+    honor_timestamps: true
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    scheme: https
+    follow_redirects: true
+    static_configs:
+      - targets:
+          - jenkins:10082
+        labels:
+          environment: dev
+          nodeserver: jenkis
+          exporter: "node_exporter"
+          layer: "infrastructure"
+          datacenter: "WPR"
+      - targets:
+          - awx:10082
+        labels:
+          environment: dev
+          nodeserver: awxs
+          exporter: "node_exporter"
+          layer: "infrastructure"
+          datacenter: "DCR"

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 30s
+      scrape_timeout: 10s
+      evaluation_interval: 10s
+    scrape_configs:
+      - job_name: node-exporters
+        honor_timestamps: true
+        scrape_interval: 30s
+        scrape_timeout: 10s
+        scheme: https
+        follow_redirects: true
+        static_configs:
+          - targets:
+              - jenkis:10082
+            labels:
+              environment: dev
+              nodeserver: jenkis
+              exporter: "node_exporter"
+              layer: "infrastructure"
+              datacenter: "WPR"
+          - targets:
+              - awx:10082
+            labels:
+              environment: dev
+              nodeserver: awx
+              exporter: "node_exporter"
+              layer: "infrastructure"
+              datacenter: "DCR"
+  rules.yml: |
+    groups:
+      - name: example
+        rules:
+          - alert: InstanceDown
+            expr: up == 0
+            for: 5m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Instance {{ $labels.instance }} down"
+              description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
