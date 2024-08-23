@@ -286,8 +286,12 @@ Ahora, puedes acceder a tu aplicación OVNI desde cualquier navegador utilizando
 ### 3.4 Actualizaciones de web
 
 ```
-docker build -t gstvo2k15/ovni-app:websound .
-docker push gstvo2k15/ovni-app:websound
+cd ovni-app/
+npm run build
+
+docker build -t gstvo2k15/ovni-app:background .
+docker push gstvo2k15/ovni-app:background
+
 kubectl set image deployment/ovni-deployment ovni-app=gstvo2k15/ovni-app:web3b
 kubectl rollout status deployment/ovni-deployment
 ```
