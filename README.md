@@ -215,6 +215,7 @@ Ahora, construye la imagen Docker:
 Si tienes un registro de contenedores (Docker Hub, AWS ECR, etc.), puedes publicar la imagen allí. Por ejemplo:
 
 `docker tag ovni-app gstvo2k15/ovni-app`
+
 `docker push gstvo2k15/ovni-app`
 
 ## 3. Desplegar en Kubernetes
@@ -281,3 +282,12 @@ kubectl apply -f ovni-service.yaml
 Ahora, puedes acceder a tu aplicación OVNI desde cualquier navegador utilizando la IP de uno de tus nodos y el puerto 30007:
 
 `http://<node-ip>:30007`
+
+### 3.4 Actualizaciones
+
+```
+docker build -t gstvo2k15/ovni-app:websound .
+docker push gstvo2k15/ovni-app:websound
+kubectl set image deployment/ovni-deployment ovni-app=gstvo2k15/ovni-app:web3b
+kubectl rollout status deployment/ovni-deployment
+```
