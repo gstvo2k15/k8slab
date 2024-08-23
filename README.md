@@ -1,6 +1,6 @@
-### Basic nginx web with react backend
+# Basic nginx web with react backend
 
-1.0 Crear servicio nginx en k8s
+## 1.0 Crear servicio nginx en k8s
 
 `kubectl create secret generic my-secret --from-literal=password=myP@ssw0rd` <br>
 secret/my-secret created
@@ -111,7 +111,7 @@ nginx-deployment-66597ff946-q2hq4   1/1     Running   0          78s
 
 `http://192.168.1.33:30007`
 
-1.1 Crear la Aplicación React
+### 1.1 Crear la Aplicación React
 
 En tu entorno de desarrollo local:
 
@@ -119,7 +119,8 @@ En tu entorno de desarrollo local:
 
 cd ovni-app
 
-1.2 Personalizar la Aplicación React
+### 1.2 Personalizar la Aplicación React
+
 Vamos a modificar el archivo src/App.js para darle una apariencia de temática ovni:
 
 ```
@@ -174,16 +175,19 @@ También, agrega un estilo básico en src/App.css:
 }
 ```
 
-1.3 Construir la Aplicación
+### 1.3 Construir la Aplicación
+
 Construye la aplicación para que esté lista para producción:
 
 `npm run build`
 Esto generará una carpeta build que contiene la aplicación lista para ser servida.
 
-2. Integrar la Aplicación React en NGINX
-   Para servir la aplicación React con NGINX, necesitamos empaquetarla en una imagen de Docker.
+## 2. Integrar la Aplicación React en NGINX
 
-2.1 Crear un Dockerfile
+Para servir la aplicación React con NGINX, necesitamos empaquetarla en una imagen de Docker.
+
+### 2.1 Crear un Dockerfile
+
 En el directorio de tu proyecto, crea un archivo Dockerfile:
 
 Dockerfile
@@ -202,18 +206,21 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-2.2 Construir y Publicar la Imagen Docker
+### 2.2 Construir y Publicar la Imagen Docker
 
 Ahora, construye la imagen Docker:
 
-docker build -t ovni-app .
+`docker build -t ovni-app .`
+
 Si tienes un registro de contenedores (Docker Hub, AWS ECR, etc.), puedes publicar la imagen allí. Por ejemplo:
 
-bash
-Copiar código
-docker tag ovni-app <your-dockerhub-username>/ovni-app
-docker push <your-dockerhub-username>/ovni-app 3. Desplegar en Kubernetes
-3.1 Crear un Deployment y Servicio en Kubernetes
+`docker tag ovni-app gstvo2k15/ovni-app`
+`docker push gstvo2k15/ovni-app`
+
+## 3. Desplegar en Kubernetes
+
+### 3.1 Crear un Deployment y Servicio en Kubernetes
+
 Ahora que tienes la imagen Docker publicada, vamos a desplegarla en tu clúster de Kubernetes.
 
 `ovni-deployment.yaml`
@@ -237,7 +244,7 @@ spec:
     spec:
       containers:
       - name: ovni-app
-        image: <your-dockerhub-username>/ovni-app:latest
+        image: gstvo2k15/ovni-app:latest
         ports:
         - containerPort: 80
 ```
@@ -258,18 +265,19 @@ spec:
     targetPort: 80
     nodePort: 30007
   type: NodePort
-3.2 Aplicar los Manifiestos en Kubernetes
+```
+
+### 3.2 Aplicar los Manifiestos en Kubernetes
+
 Aplica los manifiestos a tu clúster de Kubernetes:
 
-bash
-Copiar código
+```
 kubectl apply -f ovni-deployment.yaml
 kubectl apply -f ovni-service.yaml
-3.3 Acceder a la Aplicación
+```
+
+### 3.3 Acceder a la Aplicación
+
 Ahora, puedes acceder a tu aplicación OVNI desde cualquier navegador utilizando la IP de uno de tus nodos y el puerto 30007:
 
-arduino
-Copiar código
-http://<node-ip>:30007
-Esto debería mostrar la aplicación React con la temática de OVNI.
-```
+`http://<node-ip>:30007`
