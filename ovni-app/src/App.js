@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import ufoImage from "./ovni.png";
-import gardenImage from "./garden.png";
+import gardenImage from "./garden.jpg";
 import xFilesTheme from "./xfiles-theme.mp3";
 
 function App() {
